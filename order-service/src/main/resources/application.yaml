@@ -11,7 +11,4 @@ spring:
     exchange:
       name: order-exchange
     routing-key:
-      stock:
-        name: stock-routing-key
-      email:
-        name: email-routing-key
+        name: order-routing-key
