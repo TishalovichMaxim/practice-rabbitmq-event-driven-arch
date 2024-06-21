@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: stock-service
+  rabbitmq:
+    host: localhost
+    queue:
+      order-stock:
+        name: order-stock
+
+server:
+  port: 8082
