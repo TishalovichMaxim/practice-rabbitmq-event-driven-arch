@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: email-service
+  rabbitmq:
+    host: localhost
+    queue:
+      order-email:
+        name: order-email
+
+server:
+  port: 8081
