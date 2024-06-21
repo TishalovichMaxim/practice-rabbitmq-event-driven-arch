@@ -2,7 +2,7 @@ spring:
   application:
     name: email-service
   rabbitmq:
-    host: localhost
+    host: rabbit-mq
     queue:
       order-email:
         name: order-email

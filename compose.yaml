@@ -1,0 +1,55 @@
+services:
+  rabbit-mq:
+    container_name: rabbit-mq
+    build: ./rabbit-mq
+    networks:
+      - order-network
+      - stock-network
+      - email-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:15672"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  order-service:
+    container_name: order-service
+    build: ./order-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      rabbit-mq:
+        condition: service_healthy
+    networks:
+      - order-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/swagger-ui/index.html"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  stock-service:
+    container_name: stock-service
+    build: ./stock-service
+    restart: on-failure
+    depends_on:
+      order-service:
+        condition: service_healthy
+    networks:
+      - stock-network
+
+  email-service:
+    container_name: email-network
+    build: ./email-service
+    restart: on-failure
+    depends_on:
+      order-service:
+        condition: service_healthy
+    networks:
+      - email-network
+
+
+networks:
+  order-network: {}
+  stock-network: {}
+  email-network: {}
